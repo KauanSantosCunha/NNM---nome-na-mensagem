@@ -1,0 +1,33 @@
+{
+  "name": "NNM",
+  "description": "Nome Na Mensagem",
+  "version": "1.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "nnm.png",
+    "32": "nnm.png",
+    "48": "nnm.png",
+    "128": "nnm.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "contenthomo.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/nnm.png"],
+      "matches": ["https://web.whatsapp.com/*"]
+    }
+  ]
+}
