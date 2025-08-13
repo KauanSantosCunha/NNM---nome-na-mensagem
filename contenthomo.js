@@ -179,6 +179,7 @@ function abrirPopupConfiguracoes() {
                 // border: 2px solid white;
         ">
         <h3 style="margin-top: 0; color: #25D366; font-size: 21px; font-weight: bold; text-align: center;">Configurações da NNM</h3>
+        
         <br>
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             <p style="margin-bottom: 5px; font-size: 14px; text-align: center;"><span style="text-decoration: underline;"><em><strong>Nome:</strong></em></span></p>
@@ -240,13 +241,7 @@ function abrirPopupConfiguracoes() {
         </div>
         
         <hr style="width: 100%; border: 0; border-top: 1px solid #555; margin: 20px 0;" />
-        <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%; margin-bottom: 10px;">
-            <span style="font-size: 14px; margin-right: 10px;">Extensão Ativa</span>
-            <label class="switch">
-                <input type="checkbox" id="toggleSwitch" ${extensaoAtiva ? 'checked' : ''}>
-                <span class="slider round"></span>
-            </label>
-        </div>
+        
         <button id="limparConfig" style="
             background-color:rgb(72, 72, 72); 
             color: white; 
@@ -260,11 +255,6 @@ function abrirPopupConfiguracoes() {
     `;
 
     document.body.appendChild(popup);
-
-    // document.getElementById("toggleSwitch").addEventListener("change", (e) => {
-    //     extensaoAtiva = e.target.checked;
-    //     localStorage.setItem("extensaoAtiva", extensaoAtiva);
-    // });
 
     // Adiciona os eventos dos botões do popup
     document.getElementById("salvarNome").onclick = function() {
@@ -337,10 +327,6 @@ function dispatchShiftEnter(element) {
 }
 
 function adicionarAssinatura(caixaDeTexto) {
-    // if (!extensaoAtiva) {
-    //     console.log("Extensão desativada. Nenhuma ação será tomada.");
-    //     return;
-    // }
 
     if (!caixaDeTexto || !nomeAtendente) {
         console.error("ERRO: A caixa de texto ou o nome do atendente não foram encontrados.");
