@@ -261,6 +261,11 @@ function abrirPopupConfiguracoes() {
 
     document.body.appendChild(popup);
 
+    // document.getElementById("toggleSwitch").addEventListener("change", (e) => {
+    //     extensaoAtiva = e.target.checked;
+    //     localStorage.setItem("extensaoAtiva", extensaoAtiva);
+    // });
+
     // Adiciona os eventos dos botões do popup
     document.getElementById("salvarNome").onclick = function() {
         const novoNome = document.getElementById("inputNomeAtendente").value.trim();
@@ -332,6 +337,10 @@ function dispatchShiftEnter(element) {
 }
 
 function adicionarAssinatura(caixaDeTexto) {
+    // if (!extensaoAtiva) {
+    //     console.log("Extensão desativada. Nenhuma ação será tomada.");
+    //     return;
+    // }
 
     if (!caixaDeTexto || !nomeAtendente) {
         console.error("ERRO: A caixa de texto ou o nome do atendente não foram encontrados.");
