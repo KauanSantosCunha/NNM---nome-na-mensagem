@@ -46,23 +46,21 @@ function criarBotaoConfiguracoes() {
     // bottom: "20px", left: "20px": Canto inferior esquerdo
     // bottom: "20px", right: "20px": Canto inferior direito
     botao.addEventListener('mouseenter', () => {
-        botao.style.backgroundColor = "rgb(18, 140, 126)"; // Tom de verde mais escuro
+        botao.style.backgroundColor = "rgb(18, 140, 126)";
     });
 
     // Efeito de MOUSE LEAVE: ao tirar o mouse
     botao.addEventListener('mouseleave', () => {
-        botao.style.backgroundColor = " #25D366"; // Volta para a cor original
+        botao.style.backgroundColor = " #25D366";
     });
 
     // Efeito de CLICK (mousedown): ao pressionar o botão
     botao.addEventListener('mousedown', () => {
-        botao.style.backgroundColor = " #075e54"; // Tom de verde ainda mais escuro
-        botao.style.transform = "scale(0.95)"; // Efeito de encolher um pouco
+        botao.style.transform = "scale(0.90)"; // Efeito de encolher um pouco
     });
     
     // Efeito de SOLTAR (mouseup): ao soltar o botão
     botao.addEventListener('mouseup', () => {
-        botao.style.backgroundColor = " #128C7E"; // Volta para a cor do hover
         botao.style.transform = "scale(1)"; // Volta ao tamanho normal
     });
 
@@ -80,7 +78,6 @@ function aplicarFiltroBlur() {
     
     if (elementoDiv) {
         elementoDiv.style.filter = "blur(4px)";
-        console.log("aplicar filtro ON");
     } else {
         console.error("Elemento não encontrado para aplicar o filtro hide.");
     }
@@ -90,7 +87,6 @@ function desativarFiltroBlur() {
     const elementoDiv =document.querySelector("#pane-side > div:nth-child(1)");
     if (elementoDiv) {
         elementoDiv.style.filter = "none";
-        console.log("aplicar filtro OFF");
     } else {
         console.error("Elemento não encontrado para aplicar o filtro hide.");
     }
@@ -110,14 +106,22 @@ function alterarSide(){
 
         if (imagem) {
             imagem.setAttribute("title", "Clique para abrir o perfil do desenvolvedor");
+            
             imagem.addEventListener("mouseover", () => {
-                imagem.style.filter = "grayscale(20%)"; // Cor total
                 imagem.style.cursor = "pointer"; // Mudar o cursor para indicar que é clicável
             });
 
-            imagem.addEventListener("mouseout", () => {
-                imagem.style.filter = "grayscale(0%)"; // Voltar para a cor original
+            imagem.addEventListener('mousedown', () => {
+                imagem.style.transform = "scale(0.90)"; // Efeito de encolher um pouco
             });
+            
+            imagem.addEventListener('mouseup', () => {
+                imagem.style.transform = "scale(1)"
+            });
+            
+            // imagem.addEventListener("mouseout", () => {
+            //     imagem.style.filter = "grayscale(0%)"; // Voltar para a cor original
+            // });
 
             // Ação ao clicar na imagem
             imagem.addEventListener("click", () => {
@@ -438,12 +442,11 @@ function adicionarAssinatura(caixaDeTexto) {
     }
 
     const textoAtual = caixaDeTexto.innerText || caixaDeTexto.textContent;
-    // const nomeAtendente = "*kauan*: ";
     const assinaturaCompleta = `*${nomeAtendente}*: `;
 
     if (!textoAtual.startsWith(assinaturaCompleta)) {
-        // document.execCommand('selectAll', false, null);
-        // document.execCommand('delete', false, null);
+        document.execCommand('selectAll', false, null);
+        document.execCommand('delete', false, null);
         document.execCommand('insertText', false, assinaturaCompleta);
         dispatchShiftEnter(caixaDeTexto);
         // document.execCommand('insertText', false, textoAtual);
@@ -467,6 +470,7 @@ function adicionarAssinatura(caixaDeTexto) {
     
     caixaDeTexto.focus();
 }
+
 function anexarEventos() {
     if (!extensaoAtiva) {
         console.log("Extensão desativada. Eventos não serão anexados.");
@@ -496,10 +500,10 @@ function anexarEventos() {
         debounceTimeout = setTimeout(() => adicionarAssinatura(elementoCaixaDeTexto), 150);
     });
 
-    // elementoCaixaDeTexto.addEventListener("input", () => {
-    //     clearTimeout(debounceTimeout);
-    //     debounceTimeout = setTimeout(() => adicionarAssinatura(elementoCaixaDeTexto), 150);
-    // });
+    elementoCaixaDeTexto.addEventListener("input", () => {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => adicionarAssinatura(elementoCaixaDeTexto), 150);
+    });
 
     elementoCaixaDeTexto.addEventListener('keydown', function(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -525,7 +529,6 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 anexarEventos();
 criarBotaoConfiguracoes();
-// setTimeout(alterarSide, 10000);
 const intervalo = setInterval(() => {
     if (alterarSide()) {
         clearInterval(intervalo);
@@ -533,26 +536,3 @@ const intervalo = setInterval(() => {
 }, 1000);
 
 
-// --x1jha2zq: #E7FCE3;
-//     --x1p4o6i6: #D9FDD3;
-//     --x1vtkb83: #ACFCAC;
-//     --x1b3zegh: #71EB85;
-//     --x1jr5emx: #25D366;
-//     --x1wtwio9: #21C063;
-//     --x5grthl: #1DAA61;
-//     --x4lewaw: #1B8755;
-//     --x10lx82a: #15603E;
-//     --xlcsxz2: #144D37;
-//     --x5bl7d0: #103529;
-//     --xg7mvbm: rgba(29, 170, 97, .3);
-//     --x1six0vp: rgba(29, 170, 97, .6);
-
-// ._ak9y {
-//     z-index: 1;
-//     display: flex;
-//     flex-direction: column;
-//     flex-grow: 1;
-//     overflow-y: auto;
-//     background-color: var(--background-default);
-//     filter: blur(2px);
-// }
