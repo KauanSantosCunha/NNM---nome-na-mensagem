@@ -19,7 +19,7 @@
         "https://web.whatsapp.com/*"
       ],
       "js": [
-        "contenthomo.js"
+        "content.js"
       ],
       "run_at": "document_idle"
     }
