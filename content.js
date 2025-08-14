@@ -76,32 +76,21 @@ function criarBotaoConfiguracoes() {
 }
 
 function aplicarFiltroBlur() {
-    // const elementoDiv = document.querySelector("#pane-side > div:nth-child(1) > div");
-    const elementoDiv = document.querySelector("#pane-side");
-    // document.querySelector("._ak9y");
-    // document.querySelector("#pane-side")
-    // ._ak9y
-    // z-index: 1;
-    // display: flex;
-    // flex-direction: column;
-    // flex-grow: 1;
-    // overflow-y: auto;
-    // background-color: #20d1d1;
-    // filter: blur(3px);
-
+    const elementoDiv = document.querySelector("#pane-side > div:nth-child(1)");
+    
     if (elementoDiv) {
-        elementoDiv.style.filter = blur("3px"); // Ou "flex", "grid", dependendo do layout original.
-        console.log("aplicar filtro aqui");
+        elementoDiv.style.filter = "blur(4px)";
+        console.log("aplicar filtro ON");
     } else {
         console.error("Elemento não encontrado para aplicar o filtro hide.");
     }
 }
 
 function desativarFiltroBlur() {
-    const elementoDiv = document.querySelector("#pane-side > div:nth-child(1) > div");
+    const elementoDiv =document.querySelector("#pane-side > div:nth-child(1)");
     if (elementoDiv) {
-        // elemento.style.display = "none";
-        console.log("aplicar filtro aqui");
+        elementoDiv.style.filter = "none";
+        console.log("aplicar filtro OFF");
     } else {
         console.error("Elemento não encontrado para aplicar o filtro hide.");
     }
