@@ -441,15 +441,15 @@ function adicionarAssinatura(caixaDeTexto) {
         return;
     }
 
-    const textoAtual = caixaDeTexto.innerText || caixaDeTexto.textContent;
+    let textoAtual = caixaDeTexto.innerText || caixaDeTexto.textContent;
     const assinaturaCompleta = `*${nomeAtendente}*: `;
 
     if (!textoAtual.startsWith(assinaturaCompleta)) {
+        caixaDeTexto.focus();
         document.execCommand('selectAll', false, null);
         document.execCommand('delete', false, null);
         document.execCommand('insertText', false, assinaturaCompleta);
         dispatchShiftEnter(caixaDeTexto);
-        // document.execCommand('insertText', false, textoAtual);
 
         if (!bloqueiaAssinatura) {
            console.log("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴Está falso!🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴");
@@ -457,9 +457,6 @@ function adicionarAssinatura(caixaDeTexto) {
         }else if (bloqueiaAssinatura) {
             console.log("🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢Está verdadeiro!🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢");
         }
-
-        // const textoFinal = nomeAtendente + textoAtual;
-        // document.execCommand('insertText', false, textoFinal);
         
         console.log("✅ Assinatura adicionada!");
     } else {
