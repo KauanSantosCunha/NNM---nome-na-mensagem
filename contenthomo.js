@@ -1,18 +1,17 @@
+const logoLinkUrl = "https://www.nextel.com";
+let extensaoAtiva = localStorage.getItem("extensaoAtiva") === 'true' || false;
 let bloqueiaAssinatura = false;
 let debounceTimeout = null;
-let extensaoAtiva = true;
 
 function coletarNomeAtendente() {
     const chaveNome = "nomeAtendente";
     return localStorage.getItem(chaveNome);
 }
-
 let nomeAtendente = coletarNomeAtendente();
+
 
 function criarBotaoConfiguracoes() {
     const botao = document.createElement("button");
-
-    // --- NOVO: Obtém o URL da imagem e cria a tag <img> ---
     const imageUrl = chrome.runtime.getURL("images/nnm.png");
     const imagemBotao = document.createElement("img");
     imagemBotao.src = imageUrl;
@@ -25,7 +24,6 @@ function criarBotaoConfiguracoes() {
         objectFit: "cover"
     });
     
-    // Anexa a imagem ao botão
     botao.appendChild(imagemBotao);
     Object.assign(botao.style, {
         position: "fixed",
@@ -34,8 +32,6 @@ function criarBotaoConfiguracoes() {
         width: "31px",
         height: "31px",
         borderRadius: "50%",
-        // backgroundColor: "rgb(31, 172, 83)", // Cor verde para o botão
-        // color: "rgb(255, 255, 255)",
         border: "none",
         cursor: "pointer",
         zIndex: "1000",
@@ -85,38 +81,6 @@ function abrirPopupConfiguracoes() {
         return;
     }
 
-    // Cria a div do popup
-    const popup = document.createElement("div");
-    popup.id = "configPopup";
-    Object.assign(popup.style, {
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        padding: "15px",
-        // --- EFEITO GLASSMORPHISM ---
-        background: "rgba(255, 255, 255, 0.15)", // Fundo semi-transparente
-        backdropFilter: "blur(7px)", // Efeito de desfoque (Blur)
-        webkitBackdropFilter: "blur(7px)", // Compatibilidade com navegadores baseados em WebKit
-        border: "1px solid rgba(255, 255, 255, 0.3)", // Borda branca e fina
-        borderRadius: "20px", // Bordas bem arredondadas
-        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)", // Várias sombras para o efeito
-
-        // backgroundColor: "rgba(6, 61, 113, 0.82)",
-        // border: "1px solid #ccc",
-        // borderRadius: "8px",
-        // boxShadow: "0 4px 12px rgba(0, 0, 0, 0.52)",
-        zIndex: "1001",
-        minWidth: "200px",
-        maxWidth: "300px",
-        fontFamily: "sans-serif",
-        color: "#f0f0f0",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        position: "relative",
-        overflow: "visible" // Esconde partes que ultrapassam as bordas
-    });
     const style = document.createElement('style');
     style.innerHTML = `
         .switch {
@@ -165,6 +129,34 @@ function abrirPopupConfiguracoes() {
     `;
     document.head.appendChild(style);
 
+    // Cria a div do popup
+    const popup = document.createElement("div");
+    popup.id = "configPopup";
+    Object.assign(popup.style, {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        padding: "15px",
+        // --- EFEITO GLASSMORPHISM ---
+        background: "rgba(255, 255, 255, 0.15)", // Fundo semi-transparente
+        backdropFilter: "blur(7px)", // Efeito de desfoque (Blur)
+        webkitBackdropFilter: "blur(7px)", // Compatibilidade com navegadores baseados em WebKit
+        border: "1px solid rgba(255, 255, 255, 0.3)", // Borda branca e fina
+        borderRadius: "20px", // Bordas bem arredondadas
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)", // Várias sombras para o efeito
+        zIndex: "1001",
+        minWidth: "200px",
+        maxWidth: "300px",
+        fontFamily: "sans-serif",
+        color: "#f0f0f0",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        position: "relative",
+        overflow: "visible" // Esconde partes que ultrapassam as bordas
+    });
+
     const imageUrl = chrome.runtime.getURL("images/nnm.png");
     // Conteúdo HTML do popup
     popup.innerHTML = `
@@ -176,9 +168,37 @@ function abrirPopupConfiguracoes() {
                 height: 60px; 
                 border-radius: 15px; /* Arredonda as bordas da imagem */
                 box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* Sombra para destacar */
-                // border: 2px solid white;
         ">
+        <button id="fecharPopup" style="
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: linear-gradient(to bottom, #f44336 5%, #c73429 100%);
+            background-color: #f44336;
+            color: #ffffff;
+            border: 1px solid #9c2820;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            box-shadow: 4px 12px 14px -7px #d43b2f;
+            font-family: Arial, sans-serif;
+            text-shadow: 1px 3px 0px #8b2820;
+        ">X</button>
+        <br>
         <h3 style="margin-top: 0; color: #25D366; font-size: 21px; font-weight: bold; text-align: center;">Configurações da NNM</h3>
+        <br>
+        <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%; margin-bottom: 10px;">
+            <span id="statusLabel" style="font-size: 14px; margin-right: 10px;">${extensaoAtiva ? 'ON' : 'OFF'}</span>
+            <label class="switch">
+                <input type="checkbox" id="toggleSwitch" ${extensaoAtiva ? 'checked' : ''}>
+                <span class="slider round"></span>
+            </label>
+        </div>
         
         <br>
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
@@ -220,23 +240,6 @@ function abrirPopupConfiguracoes() {
                     text-shadow: 1px 3px 0px #5b8a3c;
                 ">Salvar</button>
 
-                <button id="fecharPopup" style="
-                    /* Estilos do botão 'Fechar' - Adaptado para o vermelho */
-                    box-shadow: 4px 12px 14px -7px #d43b2f;
-                    background: linear-gradient(to bottom, #f44336 5%, #c73429 100%);
-                    background-color: #f44336;
-                    border-radius: 6px;
-                    border: 1px solid #9c2820;
-                    display: inline-block;
-                    cursor: pointer;
-                    color: #ffffff;
-                    font-family: Arial, sans-serif;
-                    font-size: 15px;
-                    font-weight: bold;
-                    padding: 8px 12px;
-                    text-decoration: none;
-                    text-shadow: 1px 3px 0px #8b2820;
-                ">Fechar</button>
             </div>
         </div>
         
@@ -255,6 +258,15 @@ function abrirPopupConfiguracoes() {
     `;
 
     document.body.appendChild(popup);
+
+    document.getElementById("toggleSwitch").addEventListener("change", (e) => {
+        extensaoAtiva = e.target.checked;
+        localStorage.setItem("extensaoAtiva", extensaoAtiva);
+        const statusLabel = document.getElementById("statusLabel");
+        if (statusLabel) {
+            statusLabel.innerText = extensaoAtiva ? 'ON' : 'OFF';
+        }
+    });
 
     // Adiciona os eventos dos botões do popup
     document.getElementById("salvarNome").onclick = function() {
@@ -328,6 +340,11 @@ function dispatchShiftEnter(element) {
 
 function adicionarAssinatura(caixaDeTexto) {
 
+    if (!extensaoAtiva) {
+        console.log("Extensão desativada. Nenhuma ação será tomada.");
+        return;
+    }
+
     if (!caixaDeTexto || !nomeAtendente) {
         console.error("ERRO: A caixa de texto ou o nome do atendente não foram encontrados.");
         if (!nomeAtendente) {
@@ -367,6 +384,10 @@ function adicionarAssinatura(caixaDeTexto) {
     caixaDeTexto.focus();
 }
 function anexarEventos() {
+    if (!extensaoAtiva) {
+        console.log("Extensão desativada. Eventos não serão anexados.");
+        return;
+    }
     const seletorPrincipal = '#main footer div[role="textbox"]';
     const elementoCaixaDeTexto = document.querySelector(seletorPrincipal);
     if (!elementoCaixaDeTexto) {
