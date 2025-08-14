@@ -9,7 +9,6 @@ function coletarNomeAtendente() {
 }
 let nomeAtendente = coletarNomeAtendente();
 
-
 function criarBotaoConfiguracoes() {
     const botao = document.createElement("button");
     const imageUrl = chrome.runtime.getURL("images/nnm.png");
@@ -72,6 +71,40 @@ function criarBotaoConfiguracoes() {
     // Se o nome não estiver salvo, exibe o popup
     if (!nomeAtendente) {
         abrirPopupConfiguracoes();
+    }
+}
+
+function alterarSide(){
+    const elementoSpan = document.querySelector("#side > span");
+    const urlDaImagem = chrome.runtime.getURL("images/nnm.png");
+    if (elementoSpan) {
+        const novoConteudo = `
+            <br>
+            <img id="imagem-nnm" src="${urlDaImagem}" style="width: 80px; display: block; margin: 0 auto;">
+            <h3 style="margin-top: 0; color: #25D366; font-size: 15px; font-weight: bold; text-align: center;">Nome Na Mensagem</h3><br><br>
+        `;
+        elementoSpan.innerHTML = novoConteudo;
+        const imagem = document.getElementById("imagem-nnm");
+
+        if (imagem) {
+            imagem.setAttribute("title", "Clique para abrir o perfil do desenvolvedor");
+            imagem.addEventListener("mouseover", () => {
+                imagem.style.filter = "grayscale(20%)"; // Cor total
+                imagem.style.cursor = "pointer"; // Mudar o cursor para indicar que é clicável
+            });
+
+            imagem.addEventListener("mouseout", () => {
+                imagem.style.filter = "grayscale(0%)"; // Voltar para a cor original
+            });
+
+            // Ação ao clicar na imagem
+            imagem.addEventListener("click", () => {
+                window.open(linkPerfil, "_blank"); // Abre o link em uma nova aba
+            });
+        }
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -448,5 +481,11 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 anexarEventos();
 criarBotaoConfiguracoes();
+// setTimeout(alterarSide, 10000);
+const intervalo = setInterval(() => {
+    if (alterarSide()) {
+        clearInterval(intervalo);
+    }
+}, 1000);
 
 
