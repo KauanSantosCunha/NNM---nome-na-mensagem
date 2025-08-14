@@ -1,5 +1,6 @@
 const linkPerfil = "https://www.linkedin.com/in/kauansantosdacunha/";
 let extensaoAtiva = localStorage.getItem("extensaoAtiva") === 'true' || false;
+let filtroAtivo = localStorage.getItem("filtroAtivo") === 'true' || false;
 let bloqueiaAssinatura = false;
 let debounceTimeout = null;
 
@@ -71,6 +72,38 @@ function criarBotaoConfiguracoes() {
     // Se o nome não estiver salvo, exibe o popup
     if (!nomeAtendente) {
         abrirPopupConfiguracoes();
+    }
+}
+
+function aplicarFiltroBlur() {
+    // const elementoDiv = document.querySelector("#pane-side > div:nth-child(1) > div");
+    const elementoDiv = document.querySelector("#pane-side");
+    // document.querySelector("._ak9y");
+    // document.querySelector("#pane-side")
+    // ._ak9y
+    // z-index: 1;
+    // display: flex;
+    // flex-direction: column;
+    // flex-grow: 1;
+    // overflow-y: auto;
+    // background-color: #20d1d1;
+    // filter: blur(3px);
+
+    if (elementoDiv) {
+        elementoDiv.style.filter = blur("3px"); // Ou "flex", "grid", dependendo do layout original.
+        console.log("aplicar filtro aqui");
+    } else {
+        console.error("Elemento não encontrado para aplicar o filtro hide.");
+    }
+}
+
+function desativarFiltroBlur() {
+    const elementoDiv = document.querySelector("#pane-side > div:nth-child(1) > div");
+    if (elementoDiv) {
+        // elemento.style.display = "none";
+        console.log("aplicar filtro aqui");
+    } else {
+        console.error("Elemento não encontrado para aplicar o filtro hide.");
     }
 }
 
@@ -162,6 +195,7 @@ function abrirPopupConfiguracoes() {
     `;
     document.head.appendChild(style);
 
+
     // Cria a div do popup
     const popup = document.createElement("div");
     popup.id = "configPopup";
@@ -227,13 +261,20 @@ function abrirPopupConfiguracoes() {
         <h3 style="margin-top: 0; color: #25D366; font-size: 21px; font-weight: bold; text-align: center;">Configurações da NNM</h3>
         <br>
         <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%; margin-bottom: 10px;">
-            <span id="statusLabel" style="font-size: 14px; margin-right: 10px;">${extensaoAtiva ? 'ON' : 'OFF'}</span>
+            <span id="statusLabelExtensao" style="font-size: 14px; margin-right: 10px;">${extensaoAtiva ? 'ON' : 'OFF'}</span>
             <label class="switch">
-                <input type="checkbox" id="toggleSwitch" ${extensaoAtiva ? 'checked' : ''}>
+                <input type="checkbox" id="toggleSwitchExtensao" ${extensaoAtiva ? 'checked' : ''}>
                 <span class="slider round"></span>
             </label>
         </div>
-        
+        <br>
+        <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%; margin-bottom: 10px;">
+            <span id="statusLabelFiltro" style="font-size: 14px; margin-right: 10px;">Filtro: ${filtroAtivo ? 'ON' : 'OFF'}</span>
+            <label class="switch">
+                <input type="checkbox" id="toggleSwitchFiltro" ${filtroAtivo ? 'checked' : ''}>
+                <span class="slider round"></span>
+            </label>
+        </div>
         <br>
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             <p style="margin-bottom: 5px; font-size: 14px; text-align: center;"><span style="text-decoration: underline;"><em><strong>Nome:</strong></em></span></p>
@@ -299,12 +340,26 @@ function abrirPopupConfiguracoes() {
 
     document.body.appendChild(popup);
 
-    document.getElementById("toggleSwitch").addEventListener("change", (e) => {
+    document.getElementById("toggleSwitchExtensao").addEventListener("change", (e) => {
         extensaoAtiva = e.target.checked;
         localStorage.setItem("extensaoAtiva", extensaoAtiva);
-        const statusLabel = document.getElementById("statusLabel");
+        const statusLabel = document.getElementById("statusLabelExtensao");
         if (statusLabel) {
             statusLabel.innerText = extensaoAtiva ? 'ON' : 'OFF';
+        }
+    });
+
+    document.getElementById("toggleSwitchFiltro").addEventListener("change", (e) => {
+        filtroAtivo = e.target.checked;
+        localStorage.setItem("filtroAtivo", filtroAtivo); // Salvar estado do filtro
+        const statusLabel = document.getElementById("statusLabelFiltro");
+        if (statusLabel) {
+            statusLabel.innerText = `Filtro: ${filtroAtivo ? 'ON' : 'OFF'}`;
+        }
+        if (filtroAtivo) {
+            aplicarFiltroBlur();
+        } else {
+            desativarFiltroBlur();
         }
     });
 
@@ -489,3 +544,26 @@ const intervalo = setInterval(() => {
 }, 1000);
 
 
+// --x1jha2zq: #E7FCE3;
+//     --x1p4o6i6: #D9FDD3;
+//     --x1vtkb83: #ACFCAC;
+//     --x1b3zegh: #71EB85;
+//     --x1jr5emx: #25D366;
+//     --x1wtwio9: #21C063;
+//     --x5grthl: #1DAA61;
+//     --x4lewaw: #1B8755;
+//     --x10lx82a: #15603E;
+//     --xlcsxz2: #144D37;
+//     --x5bl7d0: #103529;
+//     --xg7mvbm: rgba(29, 170, 97, .3);
+//     --x1six0vp: rgba(29, 170, 97, .6);
+
+// ._ak9y {
+//     z-index: 1;
+//     display: flex;
+//     flex-direction: column;
+//     flex-grow: 1;
+//     overflow-y: auto;
+//     background-color: var(--background-default);
+//     filter: blur(2px);
+// }
