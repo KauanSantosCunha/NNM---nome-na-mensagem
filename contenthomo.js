@@ -256,8 +256,10 @@ function abrirPopupConfiguracoes() {
             font-size: 12px; 
             font-weight: bold;
         ">Limpar Configurações</button>
-
-        <p style="text-align: center; margin-top: 20px; cursor: pointer; font-size: 11px; font-weight: bold;">
+        <p style="text-align: center; margin-top: 10px; font-size: 10px; color: #f0f0f0; opacity: 0.7;">
+            <span style="color: #25D366; font-weight: bold;">N</span>ome <span style="color: #25D366; font-weight: bold;">N</span>a <span style="color: #25D366; font-weight: bold;">M</span>ensagem
+        </p>
+        <p style="text-align: center; margin-top: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
             Criado por <a href="${linkPerfil}" target="_blank" style="color: #25D366; text-decoration: none;">Kauan Cunha</a>
         </p>
     `;
