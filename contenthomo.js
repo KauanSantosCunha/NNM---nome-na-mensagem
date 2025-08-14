@@ -1,4 +1,4 @@
-const logoLinkUrl = "https://www.nextel.com";
+const linkPerfil = "https://www.linkedin.com/in/kauansantosdacunha/";
 let extensaoAtiva = localStorage.getItem("extensaoAtiva") === 'true' || false;
 let bloqueiaAssinatura = false;
 let debounceTimeout = null;
@@ -169,6 +169,7 @@ function abrirPopupConfiguracoes() {
                 border-radius: 15px; /* Arredonda as bordas da imagem */
                 box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* Sombra para destacar */
         ">
+        
         <button id="fecharPopup" style="
             position: absolute;
             top: 5px;
@@ -255,6 +256,10 @@ function abrirPopupConfiguracoes() {
             font-size: 12px; 
             font-weight: bold;
         ">Limpar Configurações</button>
+
+        <p style="text-align: center; margin-top: 20px; cursor: pointer; font-size: 11px; font-weight: bold;">
+            Criado por <a href="${linkPerfil}" target="_blank" style="color: #25D366; text-decoration: none;">Kauan Cunha</a>
+        </p>
     `;
 
     document.body.appendChild(popup);
